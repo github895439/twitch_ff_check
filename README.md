@@ -39,7 +39,6 @@ const SELF_ID = "<自分のID(数値)>";
 ```
 
 1. ツールを実行  
-`node ff_check.js`
 
 ```plaintext:標準出力
 >node ff_check.js
