@@ -38,7 +38,7 @@ const CLIENT_ID = "<クライアントID>";
 const SELF_ID = "<自分のID(数値)>";
 ```
 
-1. ツールを実行  
+1. ツールを実行(※markdownがおかしく本来は手順7)
 
 ```plaintext:標準出力
 >node ff_check.js
