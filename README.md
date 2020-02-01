@@ -35,7 +35,7 @@ ff_check.js内の下記を設定する。
 
 ```javascript:ff_check.js
 const CLIENT_ID = "<クライアントID>";
-const SELF_ID = "<自分のID(数値)>";
+const SELF_ID = "<自分のID>";
 ```
 
 1. ツールを実行(※markdownがおかしく本来は手順7)

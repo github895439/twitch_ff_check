@@ -9,7 +9,7 @@ var DEBUG = "OFF";
 var listSrc;
 var listDst;
 
-function debug(str)
+function debug(str, func)
 {
     if (DEBUG == "ON")
     {
@@ -22,6 +22,8 @@ function debug(str)
             func();
         }
     }
+
+    return;
 }
 
 function makeQuery(params)
@@ -39,7 +41,6 @@ function makeQuery(params)
 
 function syncRequest(url)
 {
-    console
     return new Promise(
         function(resolve, reject)
         {
@@ -172,6 +173,8 @@ function ffCheck()
             listDst.onlyFromSelf.push(listSrc.to[index]);
         }
     }
+
+    return;
 }
 
 async function wrapper()
@@ -216,6 +219,7 @@ async function wrapper()
     console.log("");
     console.log("# onlyFromSelf");
     console.log(listDst.onlyFromSelf.join("\n"));
+    return;
 }
 
 wrapper();
