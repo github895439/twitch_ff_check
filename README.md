@@ -74,3 +74,6 @@ https://dev.twitch.tv/docs/api/reference
 
 - requestモジュール  
 https://github.com/request/request
+
+# 履歴
+2020/05/18　5月頭にAPIの変更があり、それによって認証エラーになるようになったもよう。変更に対応させるつもり。
