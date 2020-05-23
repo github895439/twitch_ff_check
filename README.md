@@ -76,4 +76,8 @@ https://dev.twitch.tv/docs/api/reference
 https://github.com/request/request
 
 # 履歴
+2020/05/23　5月頭のAPI変更に対応    
+　requestパッケージがdeprecateになったため、axiosパッケージを使うようにも変更した。    
+　このため、axiosパッケージを別途インストールする必要がある。    
+　クライアントシークレットも必要になったため、設定を別ファイル(data/setting.json)に分離した。    
 2020/05/18　5月頭にAPIの変更があり、それによって認証エラーになるようになったもよう。変更に対応させるつもり。
