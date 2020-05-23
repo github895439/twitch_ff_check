@@ -1,0 +1,8 @@
+{
+    "clientId": "<クライアントID>",
+    "clientSecret": "<クライアントシークレット>",
+    "selfId": "<自分のID>",
+    "apiBaseUrl": "https://api.twitch.tv/helix",
+    "apiGetUsersFollowsUrl": "/users/follows",
+    "debug": "ON"
+}

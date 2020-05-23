@@ -1,17 +1,14 @@
-var request        = require('request');
+const axios = require("axios");
+const fs = require("fs");
 
-const CLIENT_ID = "<クライアントID>";
-const SELF_ID = "<自分のID>";
-var BASE_TWITCH_API_URL = "https://api.twitch.tv/helix";
-var FOLLOW_API_URL = "/users/follows";
-var DEBUG = "OFF";
+const SETTING = JSON.parse(fs.readFileSync("./data/setting.json", "utf-8"))
 
 var listSrc;
 var listDst;
 
 function debug(str, func)
 {
-    if (DEBUG == "ON")
+    if (SETTING.debug == "ON")
     {
         if (str != "func")
         {
@@ -39,112 +36,121 @@ function makeQuery(params)
     return ret;
 }
 
-function syncRequest(url)
+function getAccessToken()
 {
-    return new Promise(
-        function(resolve, reject)
+    params =
         {
-            console.log(url);
-            request(
-                {
-                    url: url,
-                    method: "GET",
-                    headers:
-                        {
-                            "Client-ID": CLIENT_ID
-                        }
-                },
-                function(error, response, body)
-                {
-                    let ret =
-                        {
-                            resp: response,
-                            statusCode: response.statusCode,
-                            body: body
-                        };
-                    debug("func",
-                        function()
-                        {
-                            for (let key of Object.keys(response))
-                            {
-                                if (!key.startsWith("_"))
-                                {
-                                    console.log(key + ":" + response[key]);
-                                }
-                            }
-                        });
-                    debug(body);
-                    resolve(ret);
-                    return;
-                });
-        });
+            "client_id": SETTING.clientId,
+            "client_secret": SETTING.clientSecret,
+            "grant_type": "client_credentials"
+        };
+    query = makeQuery(params);
+    axios.post("https://id.twitch.tv/oauth2/token" + query).
+        then(getFrom).
+        catch(function (error) {
+            if (error.response) {
+                console.log("E res");
+              // The request was made and the server responded with a status code
+              // that falls out of the range of 2xx
+              console.log(error.response.data);
+              console.log(error.response.status);
+              console.log(error.response.headers);
+            } else if (error.request) {
+                console.log("E req");
+              // The request was made but no response was received
+              // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+              // http.ClientRequest in node.js
+              console.log(error.request);
+            } else {
+              // Something happened in setting up the request that triggered an Error
+              console.log('Error', error.message);
+            }
+            console.log(error.config);
+          });
 }
 
-async function callFollowApi()
+var access_token;
+
+function getFrom(response)
 {
-    let params;
-    let query;
-    let url;
-    let respApi;
-
+    access_token = response.data.access_token;
     params =
         {
-            "from_id": SELF_ID,
+            "from_id": SETTING.selfId,
             "first": "100"
         };
-
     query = makeQuery(params);
+    axios.get(SETTING.apiBaseUrl + SETTING.apiGetUsersFollowsUrl + query,
+        {
+            headers:
+                {
+                    "Client-ID": SETTING.clientId,
+                    "Authorization": "Bearer " + access_token
+                }
+        }).
+        then(getTo).
+        catch(function (error) {
+            if (error.response) {
+                console.log("E res");
+              // The request was made and the server responded with a status code
+              // that falls out of the range of 2xx
+              console.log(error.response.data);
+              console.log(error.response.status);
+              console.log(error.response.headers);
+            } else if (error.request) {
+                console.log("E req");
+              // The request was made but no response was received
+              // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+              // http.ClientRequest in node.js
+              console.log(error.request);
+            } else {
+              // Something happened in setting up the request that triggered an Error
+              console.log('Error', error.message);
+            }
+            console.log(error.config);
+          });
+}
 
-    url = BASE_TWITCH_API_URL + FOLLOW_API_URL + query;
+var jsonFrom;
 
-    respApi = await syncRequest(url);
-
-    if (!respApi.resp)
-    {
-        console.error("E:response none.")
-        process.exit();
-    }
-
-    if (respApi.statusCode != 200)
-    {
-        console.error("E:statuscode " + respApi.statusCode);
-        process.exit();
-    }
-
-    let jsonFrom = JSON.parse(respApi.body);
-
+function getTo(response)
+{
+    jsonFrom = response.data.data;
     params =
         {
-            "to_id": SELF_ID,
+            "to_id": SETTING.selfId,
             "first": "100"
         };
-
     query = makeQuery(params);
-
-    url = BASE_TWITCH_API_URL + FOLLOW_API_URL + query;
-
-    respApi = await syncRequest(url);
-
-    if (!respApi.resp)
-    {
-        console.error("E:response none.")
-        process.exit();
-    }
-
-    if (respApi.statusCode != 200)
-    {
-        console.error("E:statuscode " + respApi.statusCode);
-        process.exit();
-    }
-
-    let jsonTo = JSON.parse(respApi.body);
-
-    let ret =
+    axios.get(SETTING.apiBaseUrl + SETTING.apiGetUsersFollowsUrl + query,
         {
-            from: jsonFrom,
-            to: jsonTo
-        };
-    return ret;
+            headers:
+                {
+                    "Client-ID": SETTING.clientId,
+                    "Authorization": "Bearer " + access_token
+                }
+        }).
+        then(analyze).
+        catch(function (error) {
+            if (error.response) {
+                console.log("E res");
+              // The request was made and the server responded with a status code
+              // that falls out of the range of 2xx
+              console.log(error.response.data);
+              console.log(error.response.status);
+              console.log(error.response.headers);
+            } else if (error.request) {
+                console.log("E req");
+              // The request was made but no response was received
+              // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+              // http.ClientRequest in node.js
+              console.log(error.request);
+            } else {
+              // Something happened in setting up the request that triggered an Error
+              console.log('Error', error.message);
+            }
+            console.log(error.config);
+          });
 }
 
 function ffCheck()
@@ -177,15 +183,17 @@ function ffCheck()
     return;
 }
 
-async function wrapper()
-{
-    respApi = await callFollowApi();
+var jsonTo;
 
-    console.log("following: " + respApi.from.data.length);
-    console.log("follower: " + respApi.to.data.length);
+function analyze(response)
+{
+    jsonTo = response.data.data;
+
+    console.log("following: " + jsonFrom.length);
+    console.log("follower: " + jsonTo.length);
     console.log("");
 
-    if ((respApi.from.data.length >= 100) || (respApi.to.data.length >= 100))
+    if ((jsonFrom.length >= 100) || (jsonTo.length >= 100))
     {
         console.error("E:This cannot be used with more than 100.");
         process.exit();
@@ -197,14 +205,14 @@ async function wrapper()
             to: [],
         };
 
-    for (let index = 0; index < respApi.to.data.length; index++) {
-        listSrc.from.push(respApi.to.data[index].from_name);
+    for (let index = 0; index < jsonTo.length; index++) {
+        listSrc.from.push(jsonTo[index].from_name);
     }
 
     listSrc.from.sort();
 
-    for (let index = 0; index < respApi.from.data.length; index++) {
-        listSrc.to.push(respApi.from.data[index].to_name);
+    for (let index = 0; index < jsonFrom.length; index++) {
+        listSrc.to.push(jsonFrom[index].to_name);
     }
 
     listSrc.to.sort();
@@ -222,4 +230,4 @@ async function wrapper()
     return;
 }
 
-wrapper();
+getAccessToken();
