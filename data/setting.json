@@ -4,5 +4,6 @@
     "selfId": "<自分のID>",
     "apiBaseUrl": "https://api.twitch.tv/helix",
     "apiGetUsersFollowsUrl": "/users/follows",
+    "apiGetVideosUrl": "/videos",
     "debug": "ON"
 }

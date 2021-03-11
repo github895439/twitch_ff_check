@@ -76,6 +76,10 @@ https://dev.twitch.tv/docs/api/reference
 https://github.com/request/request
 
 # 履歴
+2021/03/11　100以上のフォロワーに対応    
+　仕組み上は上限はないが、レートリミットに対応していないため、強制的に約200くらいまでにしている。    
+　レートリミットに対応すれば簡単に強制止めを外せると思う。    
+　フォロワーで配信履歴のあるユーザーを把握したかったので、「# User who has archive in onlyToSelf」下に該当するユーザーのURLを表示するようにした。    
 2020/05/23　5月頭のAPI変更に対応    
 　requestパッケージがdeprecateになったため、axiosパッケージを使うようにも変更した。    
 　このため、axiosパッケージを別途インストールする必要がある。    
