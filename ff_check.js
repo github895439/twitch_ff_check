@@ -54,7 +54,8 @@ function getAccessToken()
                 console.log(error.response.data);
                 console.log(error.response.status);
                 console.log(error.response.headers);
-            } else if (error.request)
+            }
+            else if (error.request)
             {
                 console.log("E req");
                 // The request was made but no response was received
@@ -100,7 +101,8 @@ function getFrom(response)
                 console.log(error.response.data);
                 console.log(error.response.status);
                 console.log(error.response.headers);
-            } else if (error.request)
+            }
+            else if (error.request)
             {
                 console.log("E req");
                 // The request was made but no response was received
@@ -150,7 +152,8 @@ function getFromNext(response)
                     console.log(error.response.data);
                     console.log(error.response.status);
                     console.log(error.response.headers);
-                } else if (error.request)
+                }
+                else if (error.request)
                 {
                     console.log("E req");
                     // The request was made but no response was received
@@ -198,7 +201,8 @@ function getTo()
                 console.log(error.response.data);
                 console.log(error.response.status);
                 console.log(error.response.headers);
-            } else if (error.request)
+            }
+            else if (error.request)
             {
                 console.log("E req");
                 // The request was made but no response was received
@@ -249,7 +253,8 @@ function getToNext(response)
                     console.log(error.response.data);
                     console.log(error.response.status);
                     console.log(error.response.headers);
-                } else if (error.request)
+                }
+                else if (error.request)
                 {
                     console.log("E req");
                     // The request was made but no response was received
@@ -442,7 +447,8 @@ function checkStream()
                 console.log(error.response.data);
                 console.log(error.response.status);
                 console.log(error.response.headers);
-            } else if (error.request)
+            }
+            else if (error.request)
             {
                 console.log("E req");
                 // The request was made but no response was received
@@ -498,7 +504,8 @@ function checkStreamNext(response)
                 console.log(error.response.data);
                 console.log(error.response.status);
                 console.log(error.response.headers);
-            } else if (error.request)
+            }
+            else if (error.request)
             {
                 console.log("E req");
                 // The request was made but no response was received
