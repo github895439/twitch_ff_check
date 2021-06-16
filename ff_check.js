@@ -354,26 +354,16 @@ function analyze()
 
 function sortOriginal(a, b)
 {
-    let rtn;
-    let tmp = [a.id, b.id];
-
-    if (tmp[0] == tmp[1])
+    if (a.id == b.id)
     {
         return 0;
     }
-
-    tmp.sort();
-
-    if (tmp[0] == a)
+    else if (a.id < b.id)
     {
-        rtn = 1;
-    }
-    else
-    {
-        rtn = -1;
+        return 1;
     }
 
-    return rtn;
+    return -1;
 }
 
 function includesOriginal(list, id)
